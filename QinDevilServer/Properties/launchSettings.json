@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "QinDevilServer": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

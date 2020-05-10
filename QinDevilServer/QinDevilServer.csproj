@@ -4,6 +4,12 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <AssemblyName>修琴匠服务器</AssemblyName>
+    <Authors>琴魔一梦之队</Authors>
+    <Company>琴魔一梦之队</Company>
+    <PackageId>修琴匠服务器</PackageId>
+    <AssemblyVersion>3.0.0.0</AssemblyVersion>
+    <Version>3.0.0</Version>
   </PropertyGroup>
 
 </Project>
