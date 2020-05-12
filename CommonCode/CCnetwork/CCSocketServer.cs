@@ -110,9 +110,9 @@ namespace CommonCode.CCnetwork {
                             client.recvData.Add(client.recvBuffer[i + e.Offset]);
                         }
                         while (client.recvData.Count >= 8) {
-                            int dataLen = client.recvData[0] | (client.recvData[1] >> 8) | (client.recvData[2] >> 16) | (client.recvData[3] >> 24);
+                            int dataLen = client.recvData[0] | (client.recvData[1] << 8) | (client.recvData[2] << 16) | (client.recvData[3] << 24);
                             if (client.recvData.Count - 4 >= dataLen) {
-                                int signal = client.recvData[4] | (client.recvData[5] >> 8) | (client.recvData[6] >> 16) | (client.recvData[7] >> 24);
+                                int signal = client.recvData[4] | (client.recvData[5] << 8) | (client.recvData[6] << 16) | (client.recvData[7] << 24);
                                 OnReceivePackageEvent?.Invoke(client.id, signal, client.recvData.GetRange(8, dataLen - 4).ToArray(), client.userToken);
                                 client.recvData.RemoveRange(0, dataLen + 4);
                             } else {

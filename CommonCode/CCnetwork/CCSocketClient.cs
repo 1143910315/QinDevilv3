@@ -142,9 +142,9 @@ namespace CommonCode.CCnetwork {
                             recvData.Add(recvBuffer[i + e.Offset]);
                         }
                         while (recvData.Count >= 8) {
-                            int dataLen = recvData[0] | (recvData[1] >> 8) | (recvData[2] >> 16) | (recvData[3] >> 24);
+                            int dataLen = recvData[0] | (recvData[1] << 8) | (recvData[2] << 16) | (recvData[3] << 24);
                             if (recvData.Count - 4 >= dataLen) {
-                                int signal = recvData[4] | (recvData[5] >> 8) | (recvData[6] >> 16) | (recvData[7] >> 24);
+                                int signal = recvData[4] | (recvData[5] << 8) | (recvData[6] << 16) | (recvData[7] << 24);
                                 OnReceivePackageEvent?.Invoke(signal, recvData.GetRange(8, dataLen - 4).ToArray());
                                 recvData.RemoveRange(0, dataLen + 4);
                             } else {
