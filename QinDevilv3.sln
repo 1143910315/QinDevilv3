@@ -3,18 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QinDevilClient", "QinDevilClient\QinDevilClient.csproj", "{1056BB4C-323E-482C-9C14-20CB86679E78}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QinDevilClient", "QinDevilClient\QinDevilClient.csproj", "{1056BB4C-323E-482C-9C14-20CB86679E78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QinDevilServer", "QinDevilServer\QinDevilServer.csproj", "{DE735397-F526-4485-9291-45670E8CAB43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QinDevilServer", "QinDevilServer\QinDevilServer.csproj", "{DE735397-F526-4485-9291-45670E8CAB43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QinDevilTest", "QinDevilTest\QinDevilTest.csproj", "{0AF53B9E-2DAC-4A0D-9077-E65798720E6C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QinDevilTest", "QinDevilTest\QinDevilTest.csproj", "{0AF53B9E-2DAC-4A0D-9077-E65798720E6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QinDevilConsoleTest", "QinDevilConsoleTest\QinDevilConsoleTest.csproj", "{CACEA142-B88D-4B25-A31B-99B4C7008C12}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QinDevilConsoleTest", "QinDevilConsoleTest\QinDevilConsoleTest.csproj", "{CACEA142-B88D-4B25-A31B-99B4C7008C12}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CommonCode", "CommonCode\CommonCode.shproj", "{BDFB2FCD-789D-40CB-9751-D8C8D16BA860}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		CommonCode\CommonCode.projitems*{1056bb4c-323e-482c-9c14-20cb86679e78}*SharedItemsImports = 5
 		CommonCode\CommonCode.projitems*{bdfb2fcd-789d-40cb-9751-d8c8d16ba860}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

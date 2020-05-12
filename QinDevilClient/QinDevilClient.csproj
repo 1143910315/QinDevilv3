@@ -13,4 +13,6 @@
     <AssemblyName>修琴匠</AssemblyName>
   </PropertyGroup>
 
+  <Import Project="..\CommonCode\CommonCode.projitems" Label="Shared" />
+
 </Project>

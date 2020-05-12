@@ -9,5 +9,7 @@
     <Import_RootNamespace>CommonCode</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)CCnetwork\CCSocketClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CCnetwork\CCSocketServer.cs" />
   </ItemGroup>
 </Project>
