@@ -19,12 +19,12 @@ namespace CommonCode.CCnetwork {
             public byte state;
             public SocketAsyncEventArgs[] sendEventArgs;
         }
-        public delegate object OnAcceptSuccessEvent(int id);
-        public delegate void OnLeaveEvent(int id, object userToken);
-        public delegate void OnReceivePackageEvent(int id, int signal, byte[] buffer, object userToken);
-        public OnAcceptSuccessEvent onAcceptSuccessEvent = null;
-        public OnLeaveEvent onLeaveEvent = null;
-        public OnReceivePackageEvent onReceivePackageEvent = null;
+        public delegate object OnAcceptSuccess(int id);
+        public delegate void OnLeave(int id, object userToken);
+        public delegate void OnReceivePackage(int id, int signal, byte[] buffer, object userToken);
+        public event OnAcceptSuccess OnAcceptSuccessEvent;
+        public event OnLeave OnLeaveEvent ;
+        public event OnReceivePackage OnReceivePackageEvent;
         private Socket socket;
         private readonly Hashtable socketHashtable = new Hashtable();
         private int connectNum = 1;
@@ -64,7 +64,7 @@ namespace CommonCode.CCnetwork {
                         recvBuffer = new byte[255],
                         sendData = new List<byte>(),
                         recvData = new List<byte>(),
-                        userToken = onAcceptSuccessEvent?.Invoke(connectNum),
+                        userToken = OnAcceptSuccessEvent?.Invoke(connectNum),
                         state = 0,
                         sendEventArgs = new SocketAsyncEventArgs[2]
                     };
@@ -113,7 +113,7 @@ namespace CommonCode.CCnetwork {
                             int dataLen = client.recvData[0] | (client.recvData[1] >> 8) | (client.recvData[2] >> 16) | (client.recvData[3] >> 24);
                             if (client.recvData.Count - 4 >= dataLen) {
                                 int signal = client.recvData[4] | (client.recvData[5] >> 8) | (client.recvData[6] >> 16) | (client.recvData[7] >> 24);
-                                onReceivePackageEvent?.Invoke(client.id, signal, client.recvData.GetRange(8, dataLen - 4).ToArray(), client.userToken);
+                                OnReceivePackageEvent?.Invoke(client.id, signal, client.recvData.GetRange(8, dataLen - 4).ToArray(), client.userToken);
                                 client.recvData.RemoveRange(0, dataLen + 4);
                             } else {
                                 break;
@@ -134,7 +134,7 @@ namespace CommonCode.CCnetwork {
                         socketHashtable.Remove(client.id);
                     }
                     client.s.Close();
-                    onLeaveEvent?.Invoke(client.id, client.userToken);
+                    OnLeaveEvent?.Invoke(client.id, client.userToken);
                 }
             }
         }
@@ -168,7 +168,7 @@ namespace CommonCode.CCnetwork {
                             socketHashtable.Remove(client.id);
                         }
                         client.s.Close();
-                        onLeaveEvent?.Invoke(client.id, client.userToken);
+                        OnLeaveEvent?.Invoke(client.id, client.userToken);
                     }
                 }
             }
@@ -235,7 +235,7 @@ namespace CommonCode.CCnetwork {
                             socketHashtable.Remove(client.id);
                         }
                         client.s.Close();
-                        onLeaveEvent?.Invoke(client.id, client.userToken);
+                        OnLeaveEvent?.Invoke(client.id, client.userToken);
                     }
                 }
             }

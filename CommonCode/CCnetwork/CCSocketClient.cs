@@ -6,14 +6,14 @@ using System.Text;
 
 namespace CommonCode.CCnetwork {
     public class CCSocketClient {
-        public delegate void OnConnectedEvent(bool connected);
-        public delegate void OnReceivePackageEvent(int signal, byte[] buffer);
-        public delegate void OnConnectionBreakEvent();
-        public delegate void OnSocketExceptionEvent(SocketException socketException);
-        public OnConnectedEvent onConnectedEvent;
-        public OnReceivePackageEvent onReceivePackageEvent;
-        public OnConnectionBreakEvent onConnectionBreakEvent;
-        public OnSocketExceptionEvent onSocketExceptionEvent;
+        public delegate void OnConnected(bool connected);
+        public delegate void OnReceivePackage(int signal, byte[] buffer);
+        public delegate void OnConnectionBreak();
+        public delegate void OnSocketException(SocketException socketException);
+        public event OnConnected OnConnectedEvent;
+        public event OnReceivePackage OnReceivePackageEvent;
+        public event OnConnectionBreak OnConnectionBreakEvent;
+        public event OnSocketException OnSocketExceptionEvent;
         private Socket socket;
         private readonly SocketAsyncEventArgs receiveEventArgs;
         private readonly SocketAsyncEventArgs[] sendEventArgs = new SocketAsyncEventArgs[] { new SocketAsyncEventArgs(), new SocketAsyncEventArgs() };
@@ -52,8 +52,8 @@ namespace CommonCode.CCnetwork {
                     }
                 }
             } catch (SocketException se) {
-                onConnectedEvent?.Invoke(false);
-                onSocketExceptionEvent?.Invoke(se);
+                OnConnectedEvent?.Invoke(false);
+                OnSocketExceptionEvent?.Invoke(se);
             }
         }
         public void SendPackage(int signal, byte[] data) {
@@ -110,23 +110,23 @@ namespace CommonCode.CCnetwork {
                 } catch (SocketException se) {
                     socket.Close();
                     sendData.Clear();
-                    onConnectionBreakEvent?.Invoke();
-                    onSocketExceptionEvent?.Invoke(se);
+                    OnConnectionBreakEvent?.Invoke();
+                    OnSocketExceptionEvent?.Invoke(se);
                 }
             }
         }
         private void ConnectEventArgs_Completed(object sender, SocketAsyncEventArgs e) {
             if (sender is Socket s) {
                 try {
-                    onConnectedEvent?.Invoke(s.Connected);
+                    OnConnectedEvent?.Invoke(s.Connected);
                     if (s.Connected && !socket.ReceiveAsync(receiveEventArgs)) {
                         ReceiveEventArgs_Completed(socket, receiveEventArgs);
                     }
                     e.Dispose();
                 } catch (SocketException se) {
                     s?.Close();
-                    onConnectionBreakEvent?.Invoke();
-                    onSocketExceptionEvent?.Invoke(se);
+                    OnConnectionBreakEvent?.Invoke();
+                    OnSocketExceptionEvent?.Invoke(se);
                 }
             }
         }
@@ -145,7 +145,7 @@ namespace CommonCode.CCnetwork {
                             int dataLen = recvData[0] | (recvData[1] >> 8) | (recvData[2] >> 16) | (recvData[3] >> 24);
                             if (recvData.Count - 4 >= dataLen) {
                                 int signal = recvData[4] | (recvData[5] >> 8) | (recvData[6] >> 16) | (recvData[7] >> 24);
-                                onReceivePackageEvent?.Invoke(signal, recvData.GetRange(8, dataLen - 4).ToArray());
+                                OnReceivePackageEvent?.Invoke(signal, recvData.GetRange(8, dataLen - 4).ToArray());
                                 recvData.RemoveRange(0, dataLen + 4);
                             } else {
                                 break;
@@ -156,12 +156,12 @@ namespace CommonCode.CCnetwork {
                         }
                     } else {
                         s.Close();
-                        onConnectionBreakEvent?.Invoke();
+                        OnConnectionBreakEvent?.Invoke();
                     }
                 } catch (SocketException se) {
                     s.Close();
-                    onConnectionBreakEvent?.Invoke();
-                    onSocketExceptionEvent?.Invoke(se);
+                    OnConnectionBreakEvent?.Invoke();
+                    OnSocketExceptionEvent?.Invoke(se);
                 }
             }
         }
@@ -190,13 +190,13 @@ namespace CommonCode.CCnetwork {
                         } else {
                             s.Close();
                             sendData.Clear();
-                            onConnectionBreakEvent?.Invoke();
+                            OnConnectionBreakEvent?.Invoke();
                         }
                     } catch (SocketException se) {
                         s.Close();
                         sendData.Clear();
-                        onConnectionBreakEvent?.Invoke();
-                        onSocketExceptionEvent?.Invoke(se);
+                        OnConnectionBreakEvent?.Invoke();
+                        OnSocketExceptionEvent?.Invoke(se);
                     }
                 }
             }
