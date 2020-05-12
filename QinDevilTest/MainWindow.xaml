@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QinDevilTest"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" GotFocus="Window_GotFocus" LostFocus="Window_LostFocus" Activated="Window_Activated" Deactivated="Window_Deactivated" Topmost="True">
     <Grid>
-
+        <TextBox HorizontalAlignment="Left" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="61" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" />
+        <TextBox HorizontalAlignment="Left" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="61" Margin="0,22,0,0" GotFocus="TextBox_GotFocus_1" LostFocus="TextBox_LostFocus_1" />
     </Grid>
 </Window>
