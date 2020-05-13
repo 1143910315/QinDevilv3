@@ -15,4 +15,8 @@
 
   <Import Project="..\CommonCode\CommonCode.projitems" Label="Shared" />
 
+  <ItemGroup>
+    <PackageReference Include="System.Management" Version="4.7.0" />
+  </ItemGroup>
+
 </Project>
