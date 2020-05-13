@@ -9,7 +9,15 @@
     <Import_RootNamespace>CommonCode</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)CCkeyboard\CCKeyboardHook.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CCkeyboard\CCKeyCode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CClog\LogFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CCnetwork\CCSocketClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CCnetwork\CCSocketServer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CCserialize\CCSerializeTool.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CCsystem\CCProcessInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CCsystem\CCSystemInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CCsystem\CCWindowInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CCviewModel\CCViewModelBase.cs" />
   </ItemGroup>
 </Project>
