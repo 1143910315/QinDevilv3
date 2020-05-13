@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Security.Cryptography.X509Certificates;
@@ -23,7 +24,7 @@ namespace CommonCode.CCnetwork {
         public delegate void OnLeave(int id, object userToken);
         public delegate void OnReceivePackage(int id, int signal, byte[] buffer, object userToken);
         public event OnAcceptSuccess OnAcceptSuccessEvent;
-        public event OnLeave OnLeaveEvent ;
+        public event OnLeave OnLeaveEvent;
         public event OnReceivePackage OnReceivePackageEvent;
         private Socket socket;
         private readonly Hashtable socketHashtable = new Hashtable();
@@ -80,8 +81,8 @@ namespace CommonCode.CCnetwork {
                     receiveEventArgs.Completed += ReceiveEventArgs_Completed;
                     receiveEventArgs.UserToken = client;
                     receiveEventArgs.SetBuffer(client.recvBuffer, 0, client.recvBuffer.Length);
-                    if (!socket.ReceiveAsync(receiveEventArgs)) {
-                        ReceiveEventArgs_Completed(socket, receiveEventArgs);
+                    if (!e.AcceptSocket.ReceiveAsync(receiveEventArgs)) {
+                        ReceiveEventArgs_Completed(e.AcceptSocket, receiveEventArgs);
                     }
                     acceptEventArgs = new SocketAsyncEventArgs();
                     acceptEventArgs.Completed += AcceptEventArgs_Completed;
@@ -154,8 +155,8 @@ namespace CommonCode.CCnetwork {
                                 client.sendData.CopyTo(0, client.sendBuffer, 0, count);
                                 client.sendData.RemoveRange(0, count);
                                 client.sendEventArgs[client.state & 1].SetBuffer(client.sendBuffer, 0, count);
-                                if (!socket.SendAsync(client.sendEventArgs[client.state & 1])) {
-                                    SendEventArgs_Completed(socket, client.sendEventArgs[client.state & 1]);
+                                if (!client.s.SendAsync(client.sendEventArgs[client.state & 1])) {
+                                    SendEventArgs_Completed(client.s, client.sendEventArgs[client.state & 1]);
                                 }
                             } else {
                                 client.state &= 1;
@@ -191,14 +192,14 @@ namespace CommonCode.CCnetwork {
                         int len = count + 4;
                         if ((client.state & 0b10) == 0) {
                             client.state |= 0b10;
-                            client.sendBuffer[0] = (byte)(len & 0xFF);
-                            client.sendBuffer[1] = (byte)((len >> 8) & 0xFF);
-                            client.sendBuffer[2] = (byte)((len >> 16) & 0xFF);
-                            client.sendBuffer[3] = (byte)((len >> 24) & 0xFF);
-                            client.sendBuffer[4] = (byte)(signal & 0xFF);
-                            client.sendBuffer[5] = (byte)((signal >> 8) & 0xFF);
-                            client.sendBuffer[6] = (byte)((signal >> 16) & 0xFF);
-                            client.sendBuffer[7] = (byte)((signal >> 24) & 0xFF);
+                            client.sendBuffer[0] = (byte)len;
+                            client.sendBuffer[1] = (byte)(len >> 8);
+                            client.sendBuffer[2] = (byte)(len >> 16);
+                            client.sendBuffer[3] = (byte)(len >> 24);
+                            client.sendBuffer[4] = (byte)signal;
+                            client.sendBuffer[5] = (byte)(signal >> 8);
+                            client.sendBuffer[6] = (byte)(signal >> 16);
+                            client.sendBuffer[7] = (byte)(signal >> 24);
                             if (client.sendData.Capacity < count - client.sendBuffer.Length + 8) {
                                 client.sendData.Capacity = count - client.sendBuffer.Length + 8;
                             }
@@ -209,23 +210,23 @@ namespace CommonCode.CCnetwork {
                                     client.sendData.Add(data[i + offset]);
                                 }
                             }
-                            client.sendEventArgs[client.state & 1].SetBuffer(client.sendBuffer, 0, count);
+                            client.sendEventArgs[client.state & 1].SetBuffer(client.sendBuffer, 0, count + 8);
                             client.sendEventArgs[client.state & 1].UserToken = client;
-                            if (!socket.SendAsync(client.sendEventArgs[client.state & 1])) {
-                                SendEventArgs_Completed(socket, client.sendEventArgs[client.state & 1]);
+                            if (!client.s.SendAsync(client.sendEventArgs[client.state & 1])) {
+                                SendEventArgs_Completed(client.s, client.sendEventArgs[client.state & 1]);
                             }
                         } else {
                             if (client.sendData.Capacity < count - client.sendBuffer.Length + 8 + client.sendData.Count) {
                                 client.sendData.Capacity = count - client.sendBuffer.Length + 8 + client.sendData.Count;
                             }
-                            client.sendData.Add((byte)(len & 0xFF));
-                            client.sendData.Add((byte)((len >> 8) & 0xFF));
-                            client.sendData.Add((byte)((len >> 16) & 0xFF));
-                            client.sendData.Add((byte)((len >> 24) & 0xFF));
-                            client.sendData.Add((byte)(signal & 0xFF));
-                            client.sendData.Add((byte)((signal >> 8) & 0xFF));
-                            client.sendData.Add((byte)((signal >> 16) & 0xFF));
-                            client.sendData.Add((byte)((signal >> 24) & 0xFF));
+                            client.sendData.Add((byte)len);
+                            client.sendData.Add((byte)(len >> 8));
+                            client.sendData.Add((byte)(len >> 16));
+                            client.sendData.Add((byte)(len >> 24));
+                            client.sendData.Add((byte)signal);
+                            client.sendData.Add((byte)(signal >> 8));
+                            client.sendData.Add((byte)(signal >> 16));
+                            client.sendData.Add((byte)(signal >> 24));
                             for (int i = 0; i < count; i++) {
                                 client.sendData.Add(data[i + offset]);
                             }

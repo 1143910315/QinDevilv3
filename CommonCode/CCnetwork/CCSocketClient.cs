@@ -38,7 +38,7 @@ namespace CommonCode.CCnetwork {
                 if (entry != null && entry.AddressList != null) {
                     for (int AddressListIndex = 0; AddressListIndex < entry.AddressList.Length; AddressListIndex++) {
                         if (entry.AddressList[AddressListIndex].AddressFamily == AddressFamily.InterNetwork) {
-                            socket?.Close();
+                            socket?.Close(1000);
                             socket?.Dispose();
                             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                             SocketAsyncEventArgs connectEventArgs = new SocketAsyncEventArgs();
@@ -69,14 +69,14 @@ namespace CommonCode.CCnetwork {
                     int len = count + 4;
                     if ((state & 0b10) == 0) {
                         state |= 0b10;
-                        sendBuffer[0] = (byte)(len & 0xFF);
-                        sendBuffer[1] = (byte)((len >> 8) & 0xFF);
-                        sendBuffer[2] = (byte)((len >> 16) & 0xFF);
-                        sendBuffer[3] = (byte)((len >> 24) & 0xFF);
-                        sendBuffer[4] = (byte)(signal & 0xFF);
-                        sendBuffer[5] = (byte)((signal >> 8) & 0xFF);
-                        sendBuffer[6] = (byte)((signal >> 16) & 0xFF);
-                        sendBuffer[7] = (byte)((signal >> 24) & 0xFF);
+                        sendBuffer[0] = (byte)len;
+                        sendBuffer[1] = (byte)(len >> 8);
+                        sendBuffer[2] = (byte)(len >> 16);
+                        sendBuffer[3] = (byte)(len >> 24);
+                        sendBuffer[4] = (byte)signal;
+                        sendBuffer[5] = (byte)(signal >> 8);
+                        sendBuffer[6] = (byte)(signal >> 16);
+                        sendBuffer[7] = (byte)(signal >> 24);
                         if (sendData.Capacity < count - sendBuffer.Length + 8) {
                             sendData.Capacity = count - sendBuffer.Length + 8;
                         }
@@ -87,7 +87,7 @@ namespace CommonCode.CCnetwork {
                                 sendData.Add(data[i + offset]);
                             }
                         }
-                        sendEventArgs[state & 1].SetBuffer(sendBuffer, 0, count);
+                        sendEventArgs[state & 1].SetBuffer(sendBuffer, 0, count + 8);
                         if (!socket.SendAsync(sendEventArgs[state & 1])) {
                             SendEventArgs_Completed(socket, sendEventArgs[state & 1]);
                         }
@@ -95,14 +95,14 @@ namespace CommonCode.CCnetwork {
                         if (sendData.Capacity < count - sendBuffer.Length + 8 + sendData.Count) {
                             sendData.Capacity = count - sendBuffer.Length + 8 + sendData.Count;
                         }
-                        sendData.Add((byte)(len & 0xFF));
-                        sendData.Add((byte)((len >> 8) & 0xFF));
-                        sendData.Add((byte)((len >> 16) & 0xFF));
-                        sendData.Add((byte)((len >> 24) & 0xFF));
-                        sendData.Add((byte)(signal & 0xFF));
-                        sendData.Add((byte)((signal >> 8) & 0xFF));
-                        sendData.Add((byte)((signal >> 16) & 0xFF));
-                        sendData.Add((byte)((signal >> 24) & 0xFF));
+                        sendData.Add((byte)len);
+                        sendData.Add((byte)(len >> 8));
+                        sendData.Add((byte)(len >> 16));
+                        sendData.Add((byte)(len >> 24));
+                        sendData.Add((byte)signal);
+                        sendData.Add((byte)(signal >> 8));
+                        sendData.Add((byte)(signal >> 16));
+                        sendData.Add((byte)(signal >> 24));
                         for (int i = 0; i < count; i++) {
                             sendData.Add(data[i + offset]);
                         }
