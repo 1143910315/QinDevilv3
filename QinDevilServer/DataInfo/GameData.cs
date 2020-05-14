@@ -12,11 +12,11 @@ namespace QinDevilServer.DataInfo {
             get => _clientInfo;
             set => Set(ref _clientInfo, value);
         }
-        /*private Stack<LinkedListNode<UserInfo>> _clientInfoBack = new Stack<LinkedListNode<UserInfo>>();
-        public Stack<LinkedListNode<UserInfo>> ClientInfoBack {
-            get => _clientInfoBack;
-            set => Set(ref _clientInfoBack, value);
-        }*/
+        private int _line;
+        public int Line {
+            get => _line;
+            set => Set(ref _line, value);
+        }
         public readonly ReaderWriterLockSlim LogLock = new ReaderWriterLockSlim();
         private LinkedList<LogDetail> _log = new LinkedList<LogDetail>();
         public LinkedList<LogDetail> Log {

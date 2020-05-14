@@ -35,7 +35,7 @@ namespace QinDevilClient.DataInfo {
             get => _no4Qin;
             set => Set(ref _no4Qin, value);
         }
-        private readonly List<int> _qinKey = new List<int>(12);
+        private readonly List<int> _qinKey = new List<int>(new int[12]);
         public List<int> QinKey {
             get => _qinKey;
             set => Update();
@@ -54,6 +54,11 @@ namespace QinDevilClient.DataInfo {
         public int Ping {
             get => _ping;
             set => Set(ref _ping, value);
+        }
+        private int _line;
+        public int Line {
+            get => _line;
+            set => Set(ref _line, value);
         }
     }
 }

@@ -16,6 +16,28 @@
   <Import Project="..\CommonCode\CommonCode.projitems" Label="Shared" />
 
   <ItemGroup>
+    <None Remove="Arial Unicode MS.ttf" />
+    <None Remove="border.png" />
+    <None Remove="close.png" />
+    <None Remove="FZShangKuS-R-GB.ttf" />
+    <None Remove="FZZhengHeiS-B-GB.ttf" />
+    <None Remove="FZZhengHeiS-EB-GB.ttf" />
+    <None Remove="head.png" />
+    <None Remove="HYShangWeiShouShuJ.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Arial Unicode MS.ttf" />
+    <Resource Include="border.png" />
+    <Resource Include="close.png" />
+    <Resource Include="FZShangKuS-R-GB.ttf" />
+    <Resource Include="FZZhengHeiS-B-GB.ttf" />
+    <Resource Include="FZZhengHeiS-EB-GB.ttf" />
+    <Resource Include="head.png" />
+    <Resource Include="HYShangWeiShouShuJ.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="System.Management" Version="4.7.0" />
   </ItemGroup>
 

@@ -30,5 +30,10 @@ namespace QinDevilServer.DataInfo {
             get => _gamePath;
             set => Set(ref _gamePath, value);
         }
+        private string _remark = "";
+        public string Remark {
+            get => _remark;
+            set => Set(ref _remark, value);
+        }
     }
 }

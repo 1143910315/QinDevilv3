@@ -4,9 +4,373 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QinDevilClient"
+        xmlns:converter="clr-namespace:QinDevilClient.Converter"
+        xmlns:sys="clr-namespace:System;assembly=System.Runtime"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
+        Title="修琴匠" Width="388" Topmost="True" Background="{x:Null}" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" SizeToContent="Height">
+    <Window.Resources>
+        <converter:QinKeyContentConverter x:Key="QinKeyContent"/>
+        <converter:QinKeyBackgroundConverter x:Key="QinKeyBackground"/>
+        <converter:HitQinKeyContentConverter x:Key="HitQinKeyContent"/>
+        <sys:Int32 x:Key="one">1</sys:Int32>
+        <sys:Int32 x:Key="two">2</sys:Int32>
+        <sys:Int32 x:Key="three">3</sys:Int32>
+        <sys:Int32 x:Key="four">4</sys:Int32>
+        <sys:Int32 x:Key="five">5</sys:Int32>
+        <sys:Int32 x:Key="six">6</sys:Int32>
+        <sys:Int32 x:Key="seven">7</sys:Int32>
+        <sys:Int32 x:Key="eight">8</sys:Int32>
+        <sys:Int32 x:Key="nine">9</sys:Int32>
+        <sys:Int32 x:Key="ten">10</sys:Int32>
+        <sys:Int32 x:Key="eleven">11</sys:Int32>
+        <sys:Int32 x:Key="twelve">12</sys:Int32>
+        <Storyboard x:Key="Storyboard1" RepeatBehavior="00:00:00.8000000" FillBehavior="Stop">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Name="horizontalAnimation" RepeatBehavior="00:00:00.8">
+                <DiscreteDoubleKeyFrame KeyTime="0" Value="-2"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="2"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Name="verticalAnimation" RepeatBehavior="00:00:00.8">
+                <DiscreteDoubleKeyFrame KeyTime="0" Value="-2"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.066" Value="2"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </Window.Resources>
+    <Grid x:Name="GamePanel" d:DataContext="{d:DesignInstance local:GameData}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="5"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="5"/>
+        </Grid.RowDefinitions>
+        <Viewbox Grid.ColumnSpan="3" MouseDown="Viewbox_MouseDown">
+            <Canvas Width="600" Height="93">
+                <Image Source="head.png"/>
+                <Label Content="修琴匠" Canvas.Left="25" Canvas.Top="15" FontFamily="/修琴匠;component/#HYShangWeiShouShuJ" FontSize="45" Padding="0" Foreground="White"/>
+                <Label Content="QQ群：665973374" Foreground="White" Padding="0" FontSize="12" Canvas.Left="479" Canvas.Top="36"/>
+                <Label Content="作者：琴魔一梦之队" Foreground="White" Padding="0" FontSize="12" Canvas.Left="479" Canvas.Top="57"/>
+                <Label Width="30" Height="30" Canvas.Left="553" Canvas.Top="3" MouseDown="Label_MouseDown">
+                    <Label.Background>
+                        <ImageBrush ImageSource="close.png"/>
+                    </Label.Background>
+                </Label>
+            </Canvas>
+        </Viewbox>
+        <Image Source="border.png" Grid.Row="1" Grid.Column="0" Stretch="Fill" Height="{Binding ElementName=viewBox1,Path=ActualHeight}"/>
+        <Image Source="border.png" Grid.Row="1" Grid.Column="2" Stretch="Fill" Height="{Binding ElementName=viewBox1,Path=ActualHeight}" Cursor="SizeWE" MouseDown="Image_MouseDown" MouseMove="Image_MouseMove" MouseUp="Image_MouseUp"/>
+        <Image Source="border.png" Grid.Row="2" Grid.ColumnSpan="3" Stretch="UniformToFill" Cursor="SizeNS" MouseDown="Image_MouseDown" MouseMove="Image_MouseMove_1" MouseUp="Image_MouseUp"></Image>
+        <Viewbox Stretch="Uniform" VerticalAlignment="Top" Grid.Row="1" Grid.Column="1" x:Name="viewBox1">
+            <Canvas Width="378" Height="150" Background="White">
+                <Label Name="ping" Content="{Binding Ping}" ContentStringFormat="Ping：{0}ms" Width="102" Height="18" Canvas.Left="10" Canvas.Top="7" Padding="0" RenderTransformOrigin="0.49,0.533" FontSize="14" FontFamily="/修琴匠;component/#Arial Unicode MS"/>
+                <Label Content="一号琴" Canvas.Left="10" Canvas.Top="28" Padding="0" Width="82" HorizontalContentAlignment="Center" FontFamily="/修琴匠;component/#FZZhengHeiS-EB-GB" FontSize="14"/>
+                <TextBox Text="{Binding No1Qin,UpdateSourceTrigger=PropertyChanged,NotifyOnSourceUpdated=True}" Width="82" Canvas.Left="10" Canvas.Top="50" InputMethod.IsInputMethodEnabled="False" PreviewTextInput="TextBox_PreviewTextInput" SourceUpdated="TextBox_SourceUpdated" PreviewKeyDown="TextBox_PreviewKeyDown" FontFamily="/修琴匠;component/#FZZhengHeiS-EB-GB"/>
+                <Label Content="二号琴" Canvas.Left="102" Canvas.Top="28" Padding="0" Width="82" HorizontalContentAlignment="Center" FontFamily="/修琴匠;component/#FZZhengHeiS-EB-GB" FontSize="14"/>
+                <TextBox Text="{Binding No2Qin,UpdateSourceTrigger=PropertyChanged,NotifyOnSourceUpdated=True}" Width="82" Canvas.Left="102" Canvas.Top="50" InputMethod.IsInputMethodEnabled="False" PreviewTextInput="TextBox_PreviewTextInput" SourceUpdated="TextBox_SourceUpdated_1" PreviewKeyDown="TextBox_PreviewKeyDown" FontFamily="/修琴匠;component/#FZZhengHeiS-EB-GB"/>
+                <Label Content="三号琴" Canvas.Left="194" Canvas.Top="28" Padding="0" Width="82" HorizontalContentAlignment="Center" FontFamily="/修琴匠;component/#FZZhengHeiS-EB-GB" FontSize="14"/>
+                <TextBox Text="{Binding No3Qin,UpdateSourceTrigger=PropertyChanged,NotifyOnSourceUpdated=True}" Width="82" Canvas.Left="194" Canvas.Top="50" InputMethod.IsInputMethodEnabled="False" PreviewTextInput="TextBox_PreviewTextInput" SourceUpdated="TextBox_SourceUpdated_2" PreviewKeyDown="TextBox_PreviewKeyDown" FontFamily="/修琴匠;component/#FZZhengHeiS-EB-GB"/>
+                <Label Content="四号琴" Canvas.Left="286" Canvas.Top="28" Padding="0" Width="82" HorizontalContentAlignment="Center" FontFamily="/修琴匠;component/#FZZhengHeiS-EB-GB" FontSize="14"/>
+                <TextBox Text="{Binding No4Qin,UpdateSourceTrigger=PropertyChanged,NotifyOnSourceUpdated=True}" Width="82" Canvas.Left="286" Canvas.Top="50" InputMethod.IsInputMethodEnabled="False" PreviewTextInput="TextBox_PreviewTextInput" SourceUpdated="TextBox_SourceUpdated_3" PreviewKeyDown="TextBox_PreviewKeyDown" FontFamily="/修琴匠;component/#FZZhengHeiS-EB-GB"/>
+                <Label x:Name="OneKey0" Canvas.Left="10" Canvas.Top="72" Padding="0" Foreground="White" VerticalContentAlignment="Center" Width="24" Height="24" HorizontalContentAlignment="Center" FontSize="22" MouseDown="OneKey0_MouseDown" FontFamily="/修琴匠;component/#FZZhengHeiS-B-GB">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                    <Label.Content>
+                        <MultiBinding Converter="{StaticResource QinKeyContent}" Mode="OneWay">
+                            <Binding Path="No1Qin"/>
+                            <Binding Source="{StaticResource ResourceKey=one}"/>
+                        </MultiBinding>
+                    </Label.Content>
+                    <Label.Background>
+                        <MultiBinding Converter="{StaticResource QinKeyBackground}" Mode="OneWay">
+                            <Binding Path="QinKey"/>
+                            <Binding Source="{StaticResource ResourceKey=one}"/>
+                            <Binding Path="Licence"/>
+                        </MultiBinding>
+                    </Label.Background>
+                </Label>
+                <Label x:Name="OneKey1" Canvas.Left="39" Canvas.Top="72" Padding="0" Foreground="White" VerticalContentAlignment="Center" Width="24" Height="24" HorizontalContentAlignment="Center" FontSize="22" MouseDown="OneKey1_MouseDown" FontFamily="/修琴匠;component/#FZZhengHeiS-B-GB">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                    <Label.Content>
+                        <MultiBinding Converter="{StaticResource QinKeyContent}" Mode="OneWay">
+                            <Binding Path="No1Qin"/>
+                            <Binding Source="{StaticResource ResourceKey=two}"/>
+                        </MultiBinding>
+                    </Label.Content>
+                    <Label.Background>
+                        <MultiBinding Converter="{StaticResource QinKeyBackground}" Mode="OneWay">
+                            <Binding Path="QinKey"/>
+                            <Binding Source="{StaticResource ResourceKey=two}"/>
+                            <Binding Path="Licence"/>
+                        </MultiBinding>
+                    </Label.Background>
+                </Label>
+                <Label x:Name="OneKey2" Canvas.Left="68" Canvas.Top="72" Padding="0" Foreground="White" Width="24" Height="24" FontSize="22" MouseDown="OneKey2_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="/修琴匠;component/#FZZhengHeiS-B-GB">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                    <Label.Content>
+                        <MultiBinding Converter="{StaticResource QinKeyContent}" Mode="OneWay">
+                            <Binding Path="No1Qin"/>
+                            <Binding Source="{StaticResource ResourceKey=three}"/>
+                        </MultiBinding>
+                    </Label.Content>
+                    <Label.Background>
+                        <MultiBinding Converter="{StaticResource QinKeyBackground}" Mode="OneWay">
+                            <Binding Path="QinKey"/>
+                            <Binding Source="{StaticResource ResourceKey=three}"/>
+                            <Binding Path="Licence"/>
+                        </MultiBinding>
+                    </Label.Background>
+                </Label>
+                <Label x:Name="OneKey3" Canvas.Left="102" Canvas.Top="72" Padding="0" Foreground="White" VerticalContentAlignment="Center" Width="24" Height="24" HorizontalContentAlignment="Center" FontSize="22" MouseDown="OneKey3_MouseDown" FontFamily="/修琴匠;component/#FZZhengHeiS-B-GB">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                    <Label.Content>
+                        <MultiBinding Converter="{StaticResource QinKeyContent}" Mode="OneWay">
+                            <Binding Path="No2Qin"/>
+                            <Binding Source="{StaticResource ResourceKey=one}"/>
+                        </MultiBinding>
+                    </Label.Content>
+                    <Label.Background>
+                        <MultiBinding Converter="{StaticResource QinKeyBackground}" Mode="OneWay">
+                            <Binding Path="QinKey"/>
+                            <Binding Source="{StaticResource ResourceKey=four}"/>
+                            <Binding Path="Licence"/>
+                        </MultiBinding>
+                    </Label.Background>
+                </Label>
+                <Label x:Name="OneKey4" Canvas.Left="131" Canvas.Top="72" Padding="0" Foreground="White" VerticalContentAlignment="Center" Width="24" Height="24" HorizontalContentAlignment="Center" FontSize="22" MouseDown="OneKey4_MouseDown" FontFamily="/修琴匠;component/#FZZhengHeiS-B-GB">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                    <Label.Content>
+                        <MultiBinding Converter="{StaticResource QinKeyContent}" Mode="OneWay">
+                            <Binding Path="No2Qin"/>
+                            <Binding Source="{StaticResource ResourceKey=two}"/>
+                        </MultiBinding>
+                    </Label.Content>
+                    <Label.Background>
+                        <MultiBinding Converter="{StaticResource QinKeyBackground}" Mode="OneWay">
+                            <Binding Path="QinKey"/>
+                            <Binding Source="{StaticResource ResourceKey=five}"/>
+                            <Binding Path="Licence"/>
+                        </MultiBinding>
+                    </Label.Background>
+                </Label>
+                <Label x:Name="OneKey5" Canvas.Left="160" Canvas.Top="72" Padding="0" Foreground="White" VerticalContentAlignment="Center" Width="24" Height="24" HorizontalContentAlignment="Center" FontSize="22" MouseDown="OneKey5_MouseDown" FontFamily="/修琴匠;component/#FZZhengHeiS-B-GB">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                    <Label.Content>
+                        <MultiBinding Converter="{StaticResource QinKeyContent}" Mode="OneWay">
+                            <Binding Path="No2Qin"/>
+                            <Binding Source="{StaticResource ResourceKey=three}"/>
+                        </MultiBinding>
+                    </Label.Content>
+                    <Label.Background>
+                        <MultiBinding Converter="{StaticResource QinKeyBackground}" Mode="OneWay">
+                            <Binding Path="QinKey"/>
+                            <Binding Source="{StaticResource ResourceKey=six}"/>
+                            <Binding Path="Licence"/>
+                        </MultiBinding>
+                    </Label.Background>
+                </Label>
+                <Label x:Name="OneKey6" Canvas.Left="194" Canvas.Top="72" Padding="0" Foreground="White" VerticalContentAlignment="Center" Width="24" Height="24" HorizontalContentAlignment="Center" FontSize="22" MouseDown="OneKey6_MouseDown" FontFamily="/修琴匠;component/#FZZhengHeiS-B-GB">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                    <Label.Content>
+                        <MultiBinding Converter="{StaticResource QinKeyContent}" Mode="OneWay">
+                            <Binding Path="No3Qin"/>
+                            <Binding Source="{StaticResource ResourceKey=one}"/>
+                        </MultiBinding>
+                    </Label.Content>
+                    <Label.Background>
+                        <MultiBinding Converter="{StaticResource QinKeyBackground}" Mode="OneWay">
+                            <Binding Path="QinKey"/>
+                            <Binding Source="{StaticResource ResourceKey=seven}"/>
+                            <Binding Path="Licence"/>
+                        </MultiBinding>
+                    </Label.Background>
+                </Label>
+                <Label x:Name="OneKey7" Canvas.Left="223" Canvas.Top="72" Padding="0" Foreground="White" VerticalContentAlignment="Center" Width="24" Height="24" HorizontalContentAlignment="Center" FontSize="22" MouseDown="OneKey7_MouseDown" FontFamily="/修琴匠;component/#FZZhengHeiS-B-GB">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                    <Label.Content>
+                        <MultiBinding Converter="{StaticResource QinKeyContent}" Mode="OneWay">
+                            <Binding Path="No3Qin"/>
+                            <Binding Source="{StaticResource ResourceKey=two}"/>
+                        </MultiBinding>
+                    </Label.Content>
+                    <Label.Background>
+                        <MultiBinding Converter="{StaticResource QinKeyBackground}" Mode="OneWay">
+                            <Binding Path="QinKey"/>
+                            <Binding Source="{StaticResource ResourceKey=eight}"/>
+                            <Binding Path="Licence"/>
+                        </MultiBinding>
+                    </Label.Background>
+                </Label>
+                <Label x:Name="OneKey8" Canvas.Left="252" Canvas.Top="72" Padding="0" Foreground="White" VerticalContentAlignment="Center" Width="24" Height="24" HorizontalContentAlignment="Center" FontSize="22" MouseDown="OneKey8_MouseDown" FontFamily="/修琴匠;component/#FZZhengHeiS-B-GB">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                    <Label.Content>
+                        <MultiBinding Converter="{StaticResource QinKeyContent}" Mode="OneWay">
+                            <Binding Path="No3Qin"/>
+                            <Binding Source="{StaticResource ResourceKey=three}"/>
+                        </MultiBinding>
+                    </Label.Content>
+                    <Label.Background>
+                        <MultiBinding Converter="{StaticResource QinKeyBackground}" Mode="OneWay">
+                            <Binding Path="QinKey"/>
+                            <Binding Source="{StaticResource ResourceKey=nine}"/>
+                            <Binding Path="Licence"/>
+                        </MultiBinding>
+                    </Label.Background>
+                </Label>
+                <Label x:Name="OneKey9" Canvas.Left="286" Canvas.Top="72" Padding="0" Foreground="White" VerticalContentAlignment="Center" Width="24" Height="24" HorizontalContentAlignment="Center" FontSize="22" MouseDown="OneKey9_MouseDown" FontFamily="/修琴匠;component/#FZZhengHeiS-B-GB">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                    <Label.Content>
+                        <MultiBinding Converter="{StaticResource QinKeyContent}" Mode="OneWay">
+                            <Binding Path="No4Qin"/>
+                            <Binding Source="{StaticResource ResourceKey=one}"/>
+                        </MultiBinding>
+                    </Label.Content>
+                    <Label.Background>
+                        <MultiBinding Converter="{StaticResource QinKeyBackground}" Mode="OneWay">
+                            <Binding Path="QinKey"/>
+                            <Binding Source="{StaticResource ResourceKey=ten}"/>
+                            <Binding Path="Licence"/>
+                        </MultiBinding>
+                    </Label.Background>
+                </Label>
+                <Label x:Name="OneKey10" Canvas.Left="315" Canvas.Top="72" Padding="0" Foreground="White" VerticalContentAlignment="Center" Width="24" Height="24" HorizontalContentAlignment="Center" FontSize="22" MouseDown="OneKey10_MouseDown" FontFamily="/修琴匠;component/#FZZhengHeiS-B-GB">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                    <Label.Content>
+                        <MultiBinding Converter="{StaticResource QinKeyContent}" Mode="OneWay">
+                            <Binding Path="No4Qin"/>
+                            <Binding Source="{StaticResource ResourceKey=two}"/>
+                        </MultiBinding>
+                    </Label.Content>
+                    <Label.Background>
+                        <MultiBinding Converter="{StaticResource QinKeyBackground}" Mode="OneWay">
+                            <Binding Path="QinKey"/>
+                            <Binding Source="{StaticResource ResourceKey=eleven}"/>
+                            <Binding Path="Licence"/>
+                        </MultiBinding>
+                    </Label.Background>
+                </Label>
+                <Label x:Name="OneKey11" Canvas.Left="344" Canvas.Top="72" Padding="0" Foreground="White" VerticalContentAlignment="Center" Width="24" Height="24" HorizontalContentAlignment="Center" FontSize="22" MouseDown="OneKey11_MouseDown" FontFamily="/修琴匠;component/#FZZhengHeiS-B-GB">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                    <Label.Content>
+                        <MultiBinding Converter="{StaticResource QinKeyContent}" Mode="OneWay">
+                            <Binding Path="No4Qin"/>
+                            <Binding Source="{StaticResource ResourceKey=three}"/>
+                        </MultiBinding>
+                    </Label.Content>
+                    <Label.Background>
+                        <MultiBinding Converter="{StaticResource QinKeyBackground}" Mode="OneWay">
+                            <Binding Path="QinKey"/>
+                            <Binding Source="{StaticResource ResourceKey=twelve}"/>
+                            <Binding Path="Licence"/>
+                        </MultiBinding>
+                    </Label.Background>
+                </Label>
+                <Label Content="琴上剩余对比：" Canvas.Left="10" Canvas.Top="101" Padding="0" FontSize="14" FontFamily="/修琴匠;component/#FZShangKuS-R-GB"/>
+                <Label Content="9 8 7 6 5 4 3 2 1" Canvas.Left="108" Canvas.Top="101" Padding="0" FontSize="14" FontFamily="/修琴匠;component/#FZZhengHeiS-EB-GB"/>
+                <Label Content="需要弹琴数字：" Canvas.Left="10" Canvas.Top="124" Padding="0" FontSize="14" FontFamily="/修琴匠;component/#FZShangKuS-R-GB"/>
+                <Label Content="{Binding HitQinKey,Converter={StaticResource HitQinKeyContent}}" Canvas.Left="108" Canvas.Top="124" Padding="0" FontSize="14" FontFamily="/修琴匠;component/#FZZhengHeiS-EB-GB"/>
+                <Label Content="小&#x0a;怪&#x0a;音&#x0a;符" Canvas.Left="245" Canvas.Top="99" FontSize="11" Padding="0" FontFamily="/修琴匠;component/#FZShangKuS-R-GB"/>
+                <!--<Label Content="{Binding Time}" x:Name="timeLabel" Canvas.Left="296" Canvas.Top="7" Padding="0" Width="72" Height="18" HorizontalContentAlignment="Right" FontFamily="/修琴匠;component/#FZShangKuS-R-GB"/>-->
+                <ComboBox Canvas.Left="296" x:Name="combo" Canvas.Top="7" Width="72" Height="18"  FontFamily="/修琴匠;component/#FZShangKuS-R-GB" Visibility="Hidden" >
+                    <ComboBoxItem Content="一号琴"></ComboBoxItem>
+                    <ComboBoxItem Content="二号琴"></ComboBoxItem>
+                    <ComboBoxItem Content="三号琴"></ComboBoxItem>
+                    <ComboBoxItem Content="四号琴"></ComboBoxItem>
+                </ComboBox>
+                <CheckBox x:Name="Autoplay" Content="自动弹琴" Canvas.Left="223" Canvas.Top="7" FontFamily="/修琴匠;component/#FZShangKuS-R-GB" FontSize="14" UseLayoutRounding="True" Visibility="Hidden"/>
+                <Label Content="一下：" Padding="0" FontFamily="/修琴匠;component/#FZShangKuS-R-GB" Canvas.Left="263" Canvas.Top="106" FontSize="14"/>
+                <Label Content="徵" Padding="0" FontFamily="/修琴匠;component/#FZShangKuS-R-GB" Canvas.Left="301" Canvas.Top="106" Foreground="#FFE84653" FontSize="14"/>
+                <Label Content="两下：" Padding="0" FontFamily="/修琴匠;component/#FZShangKuS-R-GB" Canvas.Left="319" Canvas.Top="106" FontSize="14"/>
+                <Label Content="商" Padding="0" FontFamily="/修琴匠;component/#FZShangKuS-R-GB" Canvas.Left="354" Canvas.Top="106" Foreground="#FFE84653" FontSize="14"/>
+                <Label Content="三下：" Padding="0" FontFamily="/修琴匠;component/#FZShangKuS-R-GB" Canvas.Left="263" Canvas.Top="125" FontSize="14"/>
+                <Label Content="羽" Padding="0" FontFamily="/修琴匠;component/#FZShangKuS-R-GB" Canvas.Left="301" Canvas.Top="125" Foreground="#FFE84653" FontSize="14"/>
+                <Label Content="四下：" Padding="0" FontFamily="/修琴匠;component/#FZShangKuS-R-GB" Canvas.Left="319" Canvas.Top="125" FontSize="14"/>
+                <Label Content="角" Padding="0" FontFamily="/修琴匠;component/#FZShangKuS-R-GB" Canvas.Left="354" Canvas.Top="125" Foreground="#FFE84653" FontSize="14"/>
+            </Canvas>
+        </Viewbox>
     </Grid>
 </Window>
